@@ -71,9 +71,8 @@ Jack is required to write a report for his social studies homework and he manage
 ![Folium Map Showcase](folium.png)
 
 As the showcase above, Python Folium map offer functions which can place the marker in the map. We can insert the bike stations according to every stations' lat and longtitude which is provided in API. 
-
+On the other hand, we'll mark different station with the percentage of each bikes in station left as green, yellow, and red. Which may give user an easy method to know which station may have no bikes when he or she decides to rent a bike.
 What's more, Folium offers built-in tooltip  and map scaling function, giving the user a good and wonderful user experience.
-
 The example above is we wrote a python script to download OpenStreetMap and insert UBike stations markers in the map.
 
 <br><br>
