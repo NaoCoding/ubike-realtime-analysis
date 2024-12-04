@@ -10,7 +10,10 @@ This project is the final project of NTNU Data Visualization
 `Server storage (12/4)`
 - [ ] `Basic storage and API ruleset`
 
-`Python Folium Map (12/13)`
+`History System (12/7)`
+- [ ] `Auto Storing UBike API Data Every mins`
+
+`Python Folium Map (12/7)`
 - [ ] `Map Selection Button`
 - [ ] `Station Marker Color Difference`
 
@@ -24,5 +27,6 @@ This project is the final project of NTNU Data Visualization
 - [ ] `Search Function`
 - [ ] `Change Language`
 - [ ] `Light / Dark Theme`
+
 
 
