@@ -8,8 +8,8 @@ UBike Real-Time Data Analysis Website
 
 ##### Group Member
 
-盧昱安 41247001S [me@andy-lu.dev](me@andy-lu.dev) <br>
-鄭兆宏 41247008S [41247008S@gapps.ntnu.edu.tw](41247008S@gapps.ntnu.edu.tw)
+盧昱安 41247001s [me@andy-lu.dev](me@andy-lu.dev) <br>
+鄭兆宏 41247008s [41247008s@gapps.ntnu.edu.tw](41247008s@gapps.ntnu.edu.tw)
 
 ## Section II : Overview
 
