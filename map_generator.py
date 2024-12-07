@@ -17,6 +17,10 @@ def getColor(a, b):
 
 
 def CreateMap(date):
+
+    if os.path.exists(f"map/{date}.html"):
+        return f"map/{date}.html"
+    
     _folium = folium.Map(
         	zoom_start=13,
         	location=[25.0375105, 121.5636349],
