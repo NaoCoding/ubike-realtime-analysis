@@ -5,6 +5,22 @@
 This project is the final project of NTNU Data Visualization
 
 
+#### Map Generator API
+
+API Location : `http://localhost:5000/api/map`
+API Description : `Get Map Data`
+API Parameter : `date`
+API Return : `html`
+
+Usage : After opening `server.py`, you can use the following URL to get the map data. 
+
+Example : `http://localhost:5000/api/map?date=201912070533`
+= get the map of 2019-12-07 05:33
+
+
+
+
+
 #### ToDo
 
 `Server storage (12/4)`
