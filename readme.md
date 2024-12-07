@@ -24,14 +24,14 @@ Example : `http://localhost:5000/api/map?date=201912070533`
 #### ToDo
 
 `Server storage (12/4)`
-- [ ] `Basic storage and API ruleset`
+- [x] `Basic storage and API ruleset`
 
 `History System (12/7)`
-- [ ] `Auto Storing UBike API Data Every mins`
+- [x] `Auto Storing UBike API Data Every three mins`
 
 `Python Folium Map (12/7)`
 - [ ] `Map Selection Button`
-- [ ] `Station Marker Color Difference`
+- [x] `Station Marker Color Difference`
 
 `D3.js (12/13)` 
 - [ ] `Bar Chart`
