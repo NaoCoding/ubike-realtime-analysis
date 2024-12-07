@@ -1,0 +1,6 @@
+folium
+os
+requests
+json
+Flask
+flask_cors
