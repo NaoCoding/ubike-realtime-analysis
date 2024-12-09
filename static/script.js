@@ -11,11 +11,14 @@ async function getSlideRange() {
    }
 }
 
+let timeList = []
+
 
 async function updateSlideRange() {
     const slideRange = await getSlideRange();
     const start = slideRange.start;
     const end = slideRange.end;
+    timeList = slideRange.time;
     const slider = document.getElementById('slide');
     slider.setAttribute('min', Number(start));
     slider.setAttribute('max', Number(end));
