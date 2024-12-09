@@ -27,7 +27,7 @@ def get_time():
     
     filelist = os.listdir("./data")
     filelist.sort()
-    return jsonify({"start":filelist[0].split(".")[0] , "end":filelist[-1].split(".")[0] , "time":[file.split(".")[0] for file in filelist]})
+    return jsonify({"time":[file.split(".")[0] for file in filelist]})
 
 if __name__ == '__main__':
     app.run(debug=True)

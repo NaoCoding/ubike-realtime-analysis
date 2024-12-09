@@ -46,4 +46,39 @@ iframe{
     padding-bottom: 1%;
 }
 
+.container .info .info_title{
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 5%;
+}
+
+.container .info .slider_info{
+    margin-bottom: 1%;
+    display:flex
+}
+
+.container .info .slider_info .slider_text{
+    font-size: 1.2rem;
+    font-weight: 400;
+    margin-bottom: 1%;
+    
+}
+
+.container .info .slider_info .slider_value{
+    margin-left: auto;
+    font-size: 1rem;
+    font-weight: 400;
+    margin-bottom: 1%;
+}
+
+.container .info input{
+    width: 100%;
+    margin: 5%;
+    margin-left: 0;
+    border-radius: 1rem;
+    border: transparent;
+    margin-top: 0;
+    margin-bottom: 1%;
+}
+
 

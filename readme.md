@@ -35,8 +35,6 @@ Example : `http://localhost:5000/api/get_time` =
 }
 ```
 
-
-
 #### ToDo
 
 `Server storage (12/4)`

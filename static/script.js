@@ -14,16 +14,32 @@ async function getSlideRange() {
 let timeList = []
 
 
+function update_slider_value(value){
+    document.getElementById('slider_value').innerHTML = parseNumberToDate(timeList[value]);
+}
+
 async function updateSlideRange() {
     const slideRange = await getSlideRange();
-    const start = slideRange.start;
-    const end = slideRange.end;
     timeList = slideRange.time;
     const slider = document.getElementById('slide');
-    slider.setAttribute('min', Number(start));
-    slider.setAttribute('max', Number(end));
-    slider.setAttribute('value', Number(start));
+    slider.setAttribute('min', Number(0));
+    slider.setAttribute('max', Number(timeList.length - 1));
+    slider.setAttribute('value', Number(timeList.length - 1));
     slider.setAttribute('step', 1);
+
+    document.getElementById("slider_value").innerHTML = parseNumberToDate(timeList[timeList.length - 1]);
 }
+
+function parseNumberToDate(target){
+
+    target = String(target)
+    const year = target.substring(0, 4);
+    const month = target.substring(4, 6);
+    const day = target.substring(6, 8);
+    const hour = target.substring(8, 10);
+    const minute = target.substring(10, 12);
+    return `${year}-${month}-${day} ${hour}:${minute}`;
+}
+
 
 window.onload = updateSlideRange()
