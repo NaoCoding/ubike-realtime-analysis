@@ -17,7 +17,23 @@ Usage : After opening `server.py`, you can use the following URL to get the map 
 Example : `http://localhost:5000/api/map?date=201912070533`
 = get the map of 2019-12-07 05:33
 
+#### Time History Data API
 
+API Location : `http://localhost:5000/api/get_time` <br>
+API Description : `Get Time History Data`<br>
+API Return : `json`
+
+Usage : After opening `server.py`, you can use the following URL to get the history data.
+
+Example : `http://localhost:5000/api/get_time` = 
+```
+{
+    "start" : oldest.json file time
+    "end" : newest.json file time
+    "time" : [array] .json file list
+
+}
+```
 
 
 
