@@ -29,9 +29,13 @@ Example : `http://localhost:5000/api/map?date=201912070533`
 `History System (12/7)`
 - [x] `Auto Storing UBike API Data Every three mins`
 
-`Python Folium Map (12/7)`
-- [ ] `Map Selection Button`
-- [x] `Station Marker Color Difference`
+`Python Folium Map`
+- [ ] `Map Selection Button(12/13)`
+- [x] `Station Marker Color Difference(12/7)`
+
+`Web Page`
+- [ ] `Web Page Design(12/13)`
+- [x] `input range(12/9)`
 
 `D3.js (12/13)` 
 - [ ] `Bar Chart`
