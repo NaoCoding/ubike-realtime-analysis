@@ -7,7 +7,7 @@ app = Flask(__name__)
 CORS(app)
 
 @app.route('/api/map', methods=['GET'])
-def get_data():
+def get_map():
     
     date = request.args.get("date")
     

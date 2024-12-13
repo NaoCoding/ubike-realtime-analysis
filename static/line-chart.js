@@ -1,10 +1,22 @@
+
+
+
 function updateLineChart(station_id) {
 
     fetch("./api/get_time")
     .then(response => response.json())
     .then(time => {
 
+        var data = []
         
+        for(var i=0;i<480;i++){
+            if(i == time.length) break;
+            fetch("./api/get_data?date=" + time[time.length - i - 1])
+            .then(response => response.json())
+            .then(q => {
+                data.push({x: time_diff(time[time.length - i - 1]), y: q[station_id]})
+            })
+        }
 
         const svg = d3.select("#d3-chart")
         .append("g")
@@ -14,16 +26,16 @@ function updateLineChart(station_id) {
         .attr("transform", "translate(" + window.innerWidth * 0.05 + "," +  window.innerHeight * 0.05 + ")");
 
         const xScale =d3.scaleLinear()
-        .domain([d3.min(data , function(d){return d.time}), d3.max(data, function(d){return d.time})])
+        .domain([d3.max(data , function(d){return d.x}), d3.min(data, function(d){return d.x})])
         .range([0, window.innerWidth*0.4]);
 
         const yScale =d3.scaleLinear()
-        .domain([0, d3.max(data, function(d) { return d.bikes; })])
+        .domain([0, d3.max(data, function(d) { return d.y; })])
         .range([window.innerHeight*0.4 , 0]);
 
         const line = d3.line()
-        .x(d => xScale(d.time))
-        .y(d => yScale(d.bikes));
+        .x(d => xScale(d.x))
+        .y(d => yScale(d.y));
 
         svg.append("path")
             .datum(data) 
@@ -41,6 +53,10 @@ function updateLineChart(station_id) {
 
     })
 
+    
+}
+
+function time_diff(a , b){
     
 }
 
