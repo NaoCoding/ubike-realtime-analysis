@@ -16,6 +16,19 @@ def get_map():
             return Response(result.read(), mimetype='text/html')
     else:
         return jsonify({"error": "No date provided"}), 400
+
+@app.route('/api/map_now', methods=['GET'])
+def get_mapnow():
+    
+    filelist = os.listdir("./data")
+    filelist.sort()
+    date = filelist[-1].split(".")[0]
+    
+    if date:
+        with open(map_generator.CreateMap(date) , "r" , encoding="utf-8") as result:
+            return Response(result.read(), mimetype='text/html')
+    else:
+        return jsonify({"error": "No date provided"}), 400
     
 @app.route('/', methods=['GET'])
 def index():

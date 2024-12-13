@@ -7,16 +7,23 @@ function updateLineChart(station_id) {
     .then(response => response.json())
     .then(time => {
 
+        console.log(time)
         var data = []
+
+         
         
-        for(var i=0;i<480;i++){
-            if(i == time.length) break;
-            fetch("./api/get_data?date=" + time[time.length - i - 1])
+        for(var i=0;i<48;i++){
+            if(i*5 == time.length) break;
+
+            fetch("./api/get_data?date=" + time['time'][time['time'].length - i*5 - 1])
             .then(response => response.json())
             .then(q => {
-                data.push({x: time_diff(time[time.length - i - 1]), y: q[station_id]})
+                console.log(q[1])
+                data.push({x: time_diff(time['time'][time['time'].length - i*5 - 1] , time['time'][time['time'].length - 1]), y: q[station_id]})
             })
         }
+
+        console.log(data)
 
         const svg = d3.select("#d3-chart")
         .append("g")
@@ -57,6 +64,6 @@ function updateLineChart(station_id) {
 }
 
 function time_diff(a , b){
-    
+    return 1
 }
 
