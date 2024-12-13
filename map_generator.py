@@ -33,7 +33,7 @@ def CreateMap(date):
     _foliumMarkerCluster = MarkerCluster().add_to(_folium)
 
     with open(f'data/{date}.json' , "r" , encoding='utf-8') as ubike_data:
-        with open("./youbike_immediate.json" , "r" , encoding='utf-8') as stations:
+        with open("./station_info.json" , "r" , encoding='utf-8') as stations:
             stations_data = json.load(stations)
             ubike_data = json.load(ubike_data)
             ubike = 0

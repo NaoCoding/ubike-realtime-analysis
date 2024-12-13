@@ -9,7 +9,7 @@
 <body>
     <div class="container">
         <div class="footer">
-            <iframe src="./api/map?date=202412071424"></iframe>
+            <iframe src="./api/map_now"></iframe>
             <div class="info">
                 <div class="info_title">
                     UBike Real-time Data Web
@@ -21,12 +21,13 @@
                     <div class="slider_value" id="slider_value"></div>
                 </div>
 
-                <input id="slide" type="range" min="1" max="20" value="20" onmouseup="update_slider_value(this.value)">
+                <input id="slide" type="range" min="1" max="20" value="20" onmouseover="update_slider_value(this.value)" onmouseup="update_slider_value(this.value)">
             </div>
         </div>
-        <svg>
+        <svg id="d3-chart">
         </svg>
     </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.js"></script>
     <script src="./static/script.js"></script>
     <script src="./static/line-chart.js"></script>
 </body>
