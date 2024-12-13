@@ -22,6 +22,17 @@ def index():
     with open("./index.html" , "r" , encoding="utf-8") as result:
         return Response(result.read(), mimetype='text/html')
     
+@app.route('/api/station_info', methods=['GET'])
+def station_info():
+    with open("./station_info.json" , "r" , encoding="utf-8") as result:
+        return jsonify(result.read())
+
+@app.route('/api/get_data', methods=['GET'])
+def get_data():
+    date = request.args.get("date")
+    with open(f"./data/{date}.json" , "r" , encoding="utf-8") as result:
+        return jsonify(result.read())
+    
 @app.route('/api/get_time' , methods=["GET"])
 def get_time():
     
