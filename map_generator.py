@@ -1,5 +1,5 @@
 from folium.plugins import MarkerCluster
-
+from folium.plugins import Draw
 import folium
 import os
 import requests
@@ -30,10 +30,24 @@ def CreateMap(date):
     _foliumMarkerCluster = MarkerCluster().add_to(_folium)
 
     with open(f'data/{date}.json' , "r" , encoding='utf-8') as ubike_data:
-        with open("data/youbike_immediate.json" , "r" , encoding='utf-8') as stations:
+        with open("./youbike_immediate.json" , "r" , encoding='utf-8') as stations:
             stations_data = json.load(stations)
             ubike_data = json.load(ubike_data)
             ubike = 0
+
+            draw = Draw(
+            export=False,
+            filename='data.geojson',
+            position='topleft',
+            draw_options={'polyline': False,
+                          'circlemarker': False,
+                          'polygon': False,
+                          'marker': False,
+                          'export': False},
+            edit_options={'poly': {'allowIntersection': False}})
+
+            draw.add_to(_folium)
+
             for station in stations_data:
                 folium.Marker(
                         location=[station['latitude'], station['longitude']],
