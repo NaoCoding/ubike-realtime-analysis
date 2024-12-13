@@ -18,6 +18,9 @@ def getColor(a, b):
 
 def CreateMap(date):
 
+    if not os.path.exists("map"):
+        os.mkdir("map")
+
     if os.path.exists(f"map/{date}.html"):
         return f"map/{date}.html"
     
