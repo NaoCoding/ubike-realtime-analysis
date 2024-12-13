@@ -34,6 +34,19 @@ def CreateMap(date):
             stations_data = json.load(stations)
             ubike_data = json.load(ubike_data)
             ubike = 0
+
+            draw = folium.Draw(
+            export=True,
+            filename='data.geojson',
+            position='topleft',
+            draw_options={'polyline': False,
+                          'circlemarker': False,
+                          'polygon': False,
+                          'marker': False},
+            edit_options={'poly': {'allowIntersection': False}})
+
+            draw.add_to(m)
+
             for station in stations_data:
                 folium.Marker(
                         location=[station['latitude'], station['longitude']],
