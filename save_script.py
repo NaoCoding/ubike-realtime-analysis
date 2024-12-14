@@ -2,6 +2,7 @@ import requests
 import json
 import datetime
 import time
+import os
 
 
 url = "https://tcgbusfs.blob.core.windows.net/dotapp/youbike/v2/youbike_immediate.json"
@@ -37,6 +38,9 @@ while 1:
             
             with open("./station_info.json" , "w" , encoding="utf-8") as file:
                 file.write(json.dumps(n) + "\n")
+
+            if not os.path.exists("data"):
+                os.mkdir("data")
 
             with open("./data/" +datetime.datetime.now().strftime("%Y%m%d%H%M")+".json", "a") as file:
                 file.write(json.dumps(filtered_data) + "\n")
