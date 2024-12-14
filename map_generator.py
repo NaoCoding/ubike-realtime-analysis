@@ -52,11 +52,17 @@ def CreateMap(date):
             draw.add_to(_folium)
 
             for station in stations_data:
-                folium.Marker(
-                        location=[station['latitude'], station['longitude']],
-                        popup=f"站點名稱：{station['sna']}\n可借車輛：{ubike_data[ubike]}",
-                        icon=folium.Icon(color=getColor(int(ubike_data[ubike]), station['total']
-                                                                                    ))).add_to(_foliumMarkerCluster)
-                ubike += 1   
+                ubike = -1
+                for i in range(len(ubike_data)):
+                    if ubike_data[i][1] == station['sno']:
+                        ubike = i
+                        break
+                if ubike != -1:
+                    folium.Marker(
+                            location=[station['latitude'], station['longitude']],
+                            popup=f"站點名稱：{station['sna']}\n可借車輛：{ubike_data[ubike][0]}",
+                            icon=folium.Icon(color=getColor(int(ubike_data[ubike][0]), station['total']
+                                                                                        ))).add_to(_foliumMarkerCluster)
+                 
     _folium.save(f"map/{date}.html")
     return f"map/{date}.html"
