@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request,Response
+from flask import Flask, jsonify, request, Response
 from flask_cors import CORS
 import os
 import map_generator
