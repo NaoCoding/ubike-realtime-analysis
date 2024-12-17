@@ -48,7 +48,6 @@ async function fetchStationInfo() {
 
 async function updateLineChart(station_id, endTime) {
     await fetchStationInfo();
-    
 
     last24h_data = await get24hData(endTime);
 
@@ -161,17 +160,14 @@ function time_diff(dateStr1, dateStr2) {
     return diffInHours;
 }
 
-//updateLineChart('500101001', '202412172209');
 async function awaitupdateLineChart(stationId){
-    
     const interval = setInterval(() => {
         if(timeList.length > 0){
             clearInterval(interval);
             updateLineChart(stationId, timeList[document.getElementById('slide').value]);
         }
     }, 50);
-
-    
 }
 // updateLineChart('500101001', timeList[document.getElementById('slide').value]);
 awaitupdateLineChart('500101001');
+// awaitupdateLineChart('500101002');
