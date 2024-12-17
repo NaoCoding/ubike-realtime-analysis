@@ -48,6 +48,7 @@ async function fetchStationInfo() {
 
 async function updateLineChart(station_id, endTime) {
     await fetchStationInfo();
+    
 
     last24h_data = await get24hData(endTime);
 
@@ -139,6 +140,10 @@ async function updateLineChart(station_id, endTime) {
         .text(`Station: ${station.sna} (Total: ${station.total})`);
 }
 
+function selectStation(lat , lng){
+    console.log(lat , lng)
+}
+
 function parseDate(dateStr) {
     const year = parseInt(dateStr.substring(0, 4), 10);
     const month = parseInt(dateStr.substring(4, 6), 10) - 1; 
@@ -156,5 +161,17 @@ function time_diff(dateStr1, dateStr2) {
     return diffInHours;
 }
 
-updateLineChart('500101001', '202412172209');
+//updateLineChart('500101001', '202412172209');
+async function awaitupdateLineChart(stationId){
+    
+    const interval = setInterval(() => {
+        if(timeList.length > 0){
+            clearInterval(interval);
+            updateLineChart(stationId, timeList[document.getElementById('slide').value]);
+        }
+    }, 50);
+
+    
+}
 // updateLineChart('500101001', timeList[document.getElementById('slide').value]);
+awaitupdateLineChart('500101001');

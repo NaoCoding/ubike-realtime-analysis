@@ -1,5 +1,6 @@
-from folium.plugins import MarkerCluster
+from marker_cluster import MarkerCluster
 from folium.plugins import Draw
+from jinja2 import Template
 import folium
 import os
 import requests
@@ -63,6 +64,16 @@ def CreateMap(date):
                             popup=f"站點名稱：{station['sna']}\n可借車輛：{ubike_data[ubike][0]}",
                             icon=folium.Icon(color=getColor(int(ubike_data[ubike][0]), station['total']
                                                                                         ))).add_to(_foliumMarkerCluster)
-                 
+
+    e = folium.Element("""
+                       function selectStation(e){
+                       parent.selectStation(e.latlng.lat, e.latlng.lng);
+                       }
+                       
+                       """)
+    html = _folium.get_root()
+    html.script.get_root().render()
+    html.script._children[e.get_name()] = e
+     
     _folium.save(f"map/{date}.html")
     return f"map/{date}.html"
