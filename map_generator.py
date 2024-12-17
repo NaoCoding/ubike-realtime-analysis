@@ -1,10 +1,10 @@
 from folium.plugins import MarkerCluster
-from folium.plugins import Draw
+from folium.elements import JSCSSMixin
 import folium
 import os
 import requests
-import folium
 import json
+from draw import Draw
 
 def getColor(a, b):
     
@@ -42,12 +42,17 @@ def CreateMap(date):
             export=False,
             filename='data.geojson',
             position='topleft',
+            show_geometry_on_click=True,
             draw_options={'polyline': False,
                           'circlemarker': False,
                           'polygon': False,
                           'marker': False,
-                          'export': False},
-            edit_options={'poly': {'allowIntersection': False}})
+                          'export': False,
+                          "circle" : False},
+            edit_options={'poly': {'allowIntersection': False}},
+            )
+
+            
 
             draw.add_to(_folium)
 

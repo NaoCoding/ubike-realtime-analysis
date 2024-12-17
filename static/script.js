@@ -13,6 +13,64 @@ async function getSlideRange() {
 
 let timeList = []
 
+async function selectArea(coords){
+
+    var coords = JSON.parse(coords).geometry.coordinates[0]
+
+    coords.sort(function(a,b){
+        if(a[0] == b[0]) return a[1] - b[1];
+        return a[0] - b[0];
+    })
+
+    console.log(coords)
+
+    const station_info = await fetch('/api/station_info')
+        .then(response => {
+            if (!response.ok) {
+            throw new Error('Network response was not ok ' + response.statusText);
+            }
+            return response.json();
+        })
+        .then(data => {
+            return JSON.parse(data).filter(station => {
+                return (
+                    station.longitude >= coords[1][0] &&
+                    station.longitude <= coords[4][0] &&
+                    station.latitude >= coords[1][1] &&
+                    station.latitude <= coords[4][1]
+                );
+            });
+        })
+
+    const slider = document.getElementById('slide');
+
+    const time_data = await fetch('/api/get_data?date='+timeList[slider.value])
+
+    
+    .then(response => {
+        if (!response.ok) {
+        throw new Error('Network response was not ok ' + response.statusText);
+        }
+        return response.json();
+    })
+    .then(data => {
+        return JSON.parse(data)
+    })
+
+    station_info.filter(station => {
+        return time_data.find(time => time.sno == station.sno)
+    }
+    )
+
+    console.log(station_info)
+    
+    // update three plots with station_info
+
+    
+    
+
+}
+
 
 function update_slider_value(value){
     document.getElementById('slider_value').innerHTML = parseNumberToDate(timeList[value]);
