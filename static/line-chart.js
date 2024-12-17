@@ -140,7 +140,14 @@ async function updateLineChart(station_id, endTime) {
 }
 
 function selectStation(lat , lng){
-    console.log(lat , lng)
+    var index = 0
+    for(var i=0;i<stationInfo.length;i++){
+        if(stationInfo[i].latitude == lat && stationInfo[i].longtitude == lng){
+            index = i
+            break
+        }
+    }
+    awaitupdateLineChart(index)
 }
 
 function parseDate(dateStr) {

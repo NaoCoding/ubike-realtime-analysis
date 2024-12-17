@@ -1,7 +1,7 @@
 from jinja2 import Template
 
 from folium.elements import JSCSSMixin
-from map import Layer, Marker
+from folium.map import Layer, Marker
 from folium.utilities import parse_options, validate_locations
 
 
@@ -93,6 +93,15 @@ class MarkerCluster(JSCSSMixin, Layer):
             kwargs.update(options)  # options argument is legacy
         super().__init__(name=name, overlay=overlay, control=control, show=show)
         self._name = "MarkerCluster"
+
+        click_template = """{% macro script(this, kwargs) %}
+    var {{ this.get_name() }} = L.marker(
+        {{ this.location|tojson }},
+        {{ this.options|tojson }}
+    ).addTo({{ this._parent.get_name() }}).on('click', selectStation);
+{% endmacro %}"""
+
+        Marker._template = Template(click_template)
 
         if locations is not None:
             locations = validate_locations(locations)
