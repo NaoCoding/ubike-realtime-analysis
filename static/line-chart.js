@@ -1,5 +1,6 @@
 let last24h_data = [];
 let stationInfo = [];
+prev_station = '500101001';
 
 async function get24hData(endTime){
     try{
@@ -151,12 +152,12 @@ async function updateLineChart(station_id, endTime) {
         .text(`Station: ${station.sna} (Total: ${station.total})`);
 }
 
-function selectStation(lat , lng){
-    for(var i=0;i<stationInfo.length;i++){
-
-        if(stationInfo[i].latitude == lat && stationInfo[i].longitude == lng){
+function selectStation(lat, lng){
+    for (var i = 0; i < stationInfo.length; i++) {
+        if (stationInfo[i].latitude == lat && stationInfo[i].longitude == lng) {
             console.log(stationInfo[i].sno);
             awaitupdateLineChart(stationInfo[i].sno);
+            prev_station = stationInfo[i].sno;
             break;
         }
     }
@@ -183,9 +184,13 @@ async function awaitupdateLineChart(stationId){
     const interval = setInterval(() => {
         if(timeList.length > 0){
             clearInterval(interval);
-            updateLineChart(stationId, timeList[document.getElementById('slide').value]);
+            if (stationId === 'undefined') {
+                updateLineChart(prev_station, timeList[document.getElementById('slide').value]);
+            } else {
+                updateLineChart(stationId, timeList[document.getElementById('slide').value]);
+            }
         }
     }, 50);
 }
 
-awaitupdateLineChart('500101001');
+awaitupdateLineChart(prev_station);
