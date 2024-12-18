@@ -113,6 +113,15 @@ async function drawPieChart() {
             .style("font-size", 12)
             .style("background", "rgba(128, 128, 128, 0.5)"); // 灰色半透明背景
 
+        // 添加日期資訊
+        const formattedDate = latestDate.slice(0, 4) + '-' + latestDate.slice(4, 6) + '-' + latestDate.slice(6, 8) + ' ' + latestDate.slice(8, 10) + ':' + latestDate.slice(10, 12);
+        svg.append("text")
+            .attr("x", 0)
+            .attr("y", radius + 60)
+            .attr("text-anchor", "middle")
+            .style("font-size", "20px")
+            .text(`Date: ${formattedDate}`);
+
         // 添加 tooltip
         const tooltip = d3.select("body").append("div")
             .attr("class", "tooltip")
@@ -126,6 +135,126 @@ async function drawPieChart() {
 
     } catch (error) {
         console.error('Error fetching data for pie chart:', error);
+    }
+}
+
+async function updatePieChart(stationIDList) {
+    try {
+        // 獲得 bike 數量
+        const timeResponse = await fetch('/api/get_time');
+        const timeData = await timeResponse.json();
+        const latestDate = timeData.time[document.getElementById('slide').value];
+
+        const data = await fetchBikeData(latestDate);
+
+        // 生成 data 與 stationIDList 的對應
+        const stationData = stationIDList.map(station => {
+            const dataEntry = data.find(d => d[1] === station.sno);
+            return {
+                available_rent_bikes: dataEntry ? dataEntry[0] : 0,
+                total: station.total,
+                name: station.sna,
+                station_ID: station.sno
+            };
+        });
+
+        // Calculate the total number of available bikes across all stations
+        const totalAvailableBikes = d3.sum(stationData, d => d.available_rent_bikes);
+
+        // Calculate the proportion of available bikes for each station
+        const stationProportions = stationData.map(station => ({
+            name: station.name,
+            proportion: station.available_rent_bikes / totalAvailableBikes
+        }));
+
+        /***************************************************************************/
+        d3.select("#d3pie-chart").remove();
+
+        // 生成svg
+        const margin = {top: 580, right: 80, bottom: 80, left: 1080};
+        const width = 1500 - margin.left - margin.right;
+        const height = 1000 - margin.top - margin.bottom;
+
+        const radius = Math.min(width, height) / 2;
+
+        const svg = d3.select("#d3-chart")
+            .append("svg")
+            .attr("id","d3pie-chart")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+            .append("g")
+            .attr("transform", `translate(${width / 2 + margin.left},${height / 2 + margin.top})`);
+
+        // 設定顏色比例尺
+        const color = d3.scaleSequential(d3.interpolateBlues)
+            .domain([0, d3.max(stationProportions, d => d.proportion)]);
+
+        // 設定 pie 和 arc
+        const pie = d3.pie()
+            .value(d => d.proportion);
+
+        const arc = d3.arc()
+            .innerRadius(0)
+            .outerRadius(radius);
+
+        const outerArc = d3.arc()
+            .innerRadius(radius * 1.15)
+            .outerRadius(radius * 1.15);
+
+        // 繪製 pie chart
+        svg.selectAll('path')
+            .data(pie(stationProportions))
+            .enter()
+            .append('path')
+            .attr('d', arc)
+            .attr('fill', d => color(d.data.proportion))
+            .attr("stroke", "white")
+            .style("stroke-width", "2px")
+            .on("mouseover", function(event, d) {
+                tooltip.style("visibility", "visible")
+                    .html(`Station: ${d.data.name}<br>Proportion: ${(d.data.proportion * 100).toFixed(1)}%`);
+            })
+            .on("mousemove", function(event) {
+                tooltip.style("top", (event.pageY - 10) + "px")
+                    .style("left", (event.pageX + 10) + "px");
+            })
+            .on("mouseout", function() {
+                tooltip.style("visibility", "hidden");
+            });
+
+        // 添加百分比文字
+        svg.selectAll('text')
+            .data(pie(stationProportions))
+            .enter()
+            .append('text')
+            .text(d => `${(d.data.proportion * 100).toFixed(1)}%`)
+            .attr("transform", d => `translate(${outerArc.centroid(d)})`)
+            .style("text-anchor", "middle")
+            .style("font-size", 12)
+            .style("background", "rgba(128, 128, 128, 0.5)"); // 灰色半透明背景
+
+        // 添加日期資訊
+        const formattedDate = latestDate.slice(0, 4) + '-' + latestDate.slice(4, 6) + '-' + latestDate.slice(6, 8) + ' ' + latestDate.slice(8, 10) + ':' + latestDate.slice(10, 12);
+        svg.append("text")
+            .attr("x", 0)
+            .attr("y", radius + 60)
+            .attr("text-anchor", "middle")
+            .style("font-size", "20px")
+            .text(`Date: ${formattedDate}`);
+
+        // 添加 tooltip
+        const tooltip = d3.select("body").append("div")
+            .attr("class", "tooltip")
+            .style("position", "absolute")
+            .style("visibility", "hidden")
+            .style("background", "#f9f9f9")
+            .style("border", "1px solid #d3d3d3")
+            .style("padding", "10px")
+            .style("border-radius", "4px")
+            .style("box-shadow", "0 0 10px rgba(0, 0, 0, 0.1)");
+
+    } catch (error) {
+        console.error('Error updating pie chart:', error);
     }
 }
 
