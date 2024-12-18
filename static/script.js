@@ -65,9 +65,10 @@ async function selectArea(coords){
     console.log(station_info)
     
     //ToDo : update three plots with station_info
-
-    
-    
+    updateBarChart(station_info);
+    // await updatePieChart(station_info);
+    // await updateScatterPlot(station_info);
+    // await updateLineChart(station_info);
 
 }
 

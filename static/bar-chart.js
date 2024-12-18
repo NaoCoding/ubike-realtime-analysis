@@ -62,6 +62,9 @@ async function drawBarChart() {
             .append("g")
             .attr("transform", `translate(${margin.left},${margin.top})`);
 
+        // 移除舊的圖表元素
+        svg.selectAll("*").remove();
+
         // 設定比例尺
         const x = d3.scaleBand()
             .domain(regionData.map(d => d.region))
@@ -140,40 +143,139 @@ async function drawBarChart() {
         svg.append("g")
             .call(d3.axisLeft(y));
 
-        /*
-        // 添加排序動畫
-        function sortBars() {
-            // 更新 x 比例尺的 domain
-            x.domain(regionData.sort((a, b) => b.available_rent_bikes - a.available_rent_bikes).map(d => d.region));
+        // 顯示總站點數量
+        svg.append("text")
+            .attr("class", "total-stations")
+            .attr("x", width - 150) // 放置在 bar chart 旁邊
+            .attr("y", 20)
+            .attr("text-anchor", "start")
+            .text(`Total Stations: ${stationData.length}`);
 
-            // 選擇所有的 bar 並應用過渡動畫
-            svg.selectAll(".bar-available")
-                .transition()
-                .duration(750)
-                .attr("x", d => x(d.region));
-
-            svg.selectAll(".bar-total")
-                .transition()
-                .duration(750)
-                .attr("x", d => x(d.region));
-
-            svg.selectAll(".label")
-                .transition()
-                .duration(750)
-                .attr("x", d => x(d.region) + x.bandwidth() / 2);
-
-            // 更新 x 軸
-            svg.select(".x-axis")
-                .transition()
-                .duration(750)
-                .call(d3.axisBottom(x));
-        }*/
-
-        // 初始排序
-        // sortBars();
     } catch (error) {
         console.error('Error fetching data for bar chart:', error);
     }
 }
 
-drawBarChart();
+async function updateBarChart(stationIDList) {
+    if (stationIDList.length === 0) {
+        drawBarChart();
+    } else {
+        try {
+            // 生成 data 與 stationInfo 的對應
+            const stationData = stationIDList.map(station => ({
+                available_rent_bikes: station.available_rent_bikes,
+                total: station.total,
+                name: station.sna,
+                station_ID: station.sno
+            }));
+
+            console.log('stationData:', stationData);
+
+            /********************************************/
+
+            // 按照剩餘數量排序
+            stationData.sort((a, b) => b.available_rent_bikes - a.available_rent_bikes);
+
+            const margin = {top: 90, right: 30, bottom: 40, left: 990}; // 增加 top margin
+            const width = 1700 - margin.left - margin.right;
+            const height = 450 - margin.top - margin.bottom;
+
+            // 更新svg
+            const svg = d3.select("#d3-chart").select("svg")
+                .attr("width", width + margin.left + margin.right)
+                .attr("height", height + margin.top + margin.bottom)
+                .select("g")
+                .attr("transform", `translate(${margin.left},${margin.top})`);
+
+            // 移除舊的圖表元素
+            svg.selectAll("*").remove();
+
+            // 更新比例尺
+            const x = d3.scaleBand()
+                .domain(stationData.map(d => d.name))
+                .range([0, width])
+                .padding(0.3);
+
+            const y = d3.scaleLinear()
+                .domain([0, d3.max(stationData, d => d.total)]) // Y 軸的最大值設為 total 最大的值
+                .range([height, 0]);
+
+            // 更新 bar chart
+            svg.selectAll(".bar-available")
+                .data(stationData)
+                .enter()
+                .append("rect")
+                .attr("class", "bar-available")
+                .attr("x", d => x(d.name))
+                .attr("y", d => y(d.available_rent_bikes))
+                .attr("width", x.bandwidth())
+                .attr("height", d => height - y(d.available_rent_bikes))
+                .attr("fill", "steelblue");
+
+            // 更新 tooltip
+            const tooltip = d3.select(".tooltip");
+            svg.selectAll(".bar-available")
+                .on("mouseover", function(event, d) {
+                    tooltip.style("visibility", "visible")
+                        .html(`Name: ${d.name}<br>Available: ${d.available_rent_bikes}<br>Total: ${d.total}`);
+                })
+                .on("mousemove", function(event) {
+                    tooltip.style("top", (event.pageY - 10) + "px")
+                        .style("left", (event.pageX + 10) + "px");
+                })
+                .on("mouseout", function() {
+                    tooltip.style("visibility", "hidden");
+                });
+
+            // 更新百分比文字
+            svg.selectAll(".label")
+                .data(stationData)
+                .enter()
+                .append("text")
+                .attr("class", "label")
+                .attr("x", d => x(d.name) + x.bandwidth() / 2)
+                .attr("y", d => y(d.available_rent_bikes) - 5) // 上方
+                .attr("text-anchor", "middle")
+                .text(d => `${d.available_rent_bikes}`);
+
+            // 更新 total 的 bar chart (描出框)
+            svg.selectAll(".bar-total")
+                .data(stationData)
+                .enter()
+                .append("rect")
+                .attr("class", "bar-total")
+                .attr("x", d => x(d.name))
+                .attr("y", d => y(d.total))
+                .attr("width", x.bandwidth())
+                .attr("height", d => height - y(d.total))
+                .attr("fill", "none")
+                .attr("stroke", "black")
+                .attr("stroke-width", 1.5);
+
+            // 更新 x 軸
+            svg.append("g")
+                .attr("class", "x-axis")
+                .attr("transform", `translate(0,${height})`)
+                .call(d3.axisBottom(x))
+                .selectAll("text")
+                .style("display", "none"); // 隱藏 X 軸的名稱
+
+            // 更新 y 軸
+            svg.append("g")
+                .attr("class", "y-axis")
+                .call(d3.axisLeft(y));
+
+            // 顯示總站點數量
+            svg.append("text")
+                .attr("class", "total-stations")
+                .attr("x", width - 150) // 放置在 bar chart 旁邊
+                .attr("y", 20)
+                .attr("text-anchor", "start")
+                .text(`Total Stations: ${stationData.length}`);
+        } catch (error) {
+            console.error('Error updating bar chart:', error);
+        }
+    }
+}
+
+updateBarChart([]);
