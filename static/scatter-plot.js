@@ -209,7 +209,7 @@ async function updateScatterPlot(stationIDList) {
             })
             .on("mouseover", function(event, d) {
                 tooltip.style("visibility", "visible")
-                    .html(`Station: ${d.station_name}<br>Available: ${d.available_rent_bikes}<br>Empty Slots: ${d.available_return_bikes}<br>Total Slots: ${d.total}`);
+                    .html(`Station: ${d.name}<br>Available: ${d.available_rent_bikes}<br>Empty Slots: ${d.available_return_bikes}<br>Total Slots: ${d.total}`);
             })
             .on("mousemove", function(event) {
                 tooltip.style("top", (event.pageY - 10) + "px")
