@@ -41,13 +41,26 @@ svg{
     width: 100%;
 }
 
-iframe{
+img{
+    width: auto;
+    height: auto;
+    margin:auto;
+}
+
+iframe , .loadingdiv{
     width: 67.5%;
     height: 100%;
     margin: 1%;
     border-radius: 2rem;
     border: transparent;
     border-bottom-right-radius: 0;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+}
+
+.loadingdiv{
+    background-color: #f0f0f0;
     
 }
 
