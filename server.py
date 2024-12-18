@@ -54,4 +54,7 @@ def get_time():
     return jsonify({"time":[file.split(".")[0] for file in filelist]})
 
 if __name__ == '__main__':
+    maplist = os.listdir("./map")
+    for file in maplist:
+        os.remove(f"./map/{file}")
     app.run(debug=True)
