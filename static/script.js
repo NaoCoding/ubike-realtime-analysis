@@ -82,6 +82,9 @@ function update_slider_value(value){
 
     //ToDo : update three chart and the line chart
     awaitupdateLineChart('undefined')
+    drawPieChart()
+    drawBarChart()
+    drawScatterPlot()
 }
 
 async function updateSlideRange() {

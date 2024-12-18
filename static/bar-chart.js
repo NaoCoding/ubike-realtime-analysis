@@ -10,7 +10,7 @@ async function drawBarChart() {
         // 獲得 bike 數量
         const timeResponse = await fetch('/api/get_time');
         const timeData = await timeResponse.json();
-        const latestDate = timeData.time[timeData.time.length - 1];
+        const latestDate = timeData.time[document.getElementById('slide').value];
 
         const data = await fetchBikeData(latestDate);
 
@@ -48,7 +48,7 @@ async function drawBarChart() {
         console.log(regionData);
 
         /*********************************************************************************/
-
+        d3.select("#d3bar-chart").remove();
         // 生成svg
         const margin = {top: 90, right: 30, bottom: 40, left: 990}; // 增加 top margin
         const width = 1700 - margin.left - margin.right;
@@ -56,6 +56,7 @@ async function drawBarChart() {
 
         const svg = d3.select("#d3-chart")
             .append("svg")
+            .attr("id", "d3bar-chart")
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom)
             .append("g")
