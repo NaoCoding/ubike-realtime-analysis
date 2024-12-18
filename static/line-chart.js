@@ -152,7 +152,7 @@ function selectStation(lat , lng){
             break
         }
     }
-    
+    none
 }
 
 function parseDate(dateStr) {

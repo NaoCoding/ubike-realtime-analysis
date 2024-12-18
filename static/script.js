@@ -64,7 +64,7 @@ async function selectArea(coords){
 
     console.log(station_info)
     
-    // update three plots with station_info
+    //ToDo : update three plots with station_info
 
     
     
@@ -76,7 +76,8 @@ function update_slider_value(value){
     if(parseNumberToDate(timeList[value]) == document.getElementById('slider_value').innerHTML)return
     document.getElementById('slider_value').innerHTML = parseNumberToDate(timeList[value]);
     document.querySelector("body > div.container > div > iframe").src = './api/map?date=' + timeList[value];
-
+    document.getElementById('loading-div').style.display = 'flex';
+    document.getElementById('iframe').style.display = 'none';
     //ToDo : update three chart and del the line chart
 }
 
@@ -103,5 +104,11 @@ function parseNumberToDate(target){
     return `${year}-${month}-${day} ${hour}:${minute}`;
 }
 
+function iframe_onLoad(){
+
+    document.getElementById('loading-div').style.display = 'none';
+    document.getElementById('iframe').style.display = 'flex';
+    
+}
 
 window.onload = updateSlideRange()

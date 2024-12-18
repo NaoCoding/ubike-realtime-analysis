@@ -9,7 +9,10 @@
 <body>
     <div class="container">
         <div class="footer">
-            <iframe src="./api/map_now"></iframe>
+            <iframe src="./api/map_now" id="iframe" onload="iframe_onLoad()" style="display: none;"></iframe>
+            <div class="loadingdiv" id="loading-div">
+                <img src="./static/assets/loading-gif.gif" id="loading-gif">
+            </div>
             <div class="info">
                 <div class="info_title">
                     UBike Real-time Data Web
