@@ -80,7 +80,7 @@ function update_slider_value(value){
     document.getElementById('iframe').style.display = 'none';
 
     //ToDo : update three chart and the line chart
-    awaitupdateLineChart(undefined)
+    awaitupdateLineChart('undefined')
 }
 
 async function updateSlideRange() {
