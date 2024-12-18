@@ -142,8 +142,12 @@ async function updateLineChart(station_id, endTime) {
 
 function selectStation(lat , lng){
 
+
+
     for(var i=0;i<stationInfo.length;i++){
-        if(stationInfo[i].latitude == lat && stationInfo[i].longtitude == lng){
+
+        if(stationInfo[i].latitude == lat && stationInfo[i].longitude == lng){
+            console.log(stationInfo[i].sno)
             awaitupdateLineChart(stationInfo[i].sno);
             break
         }
