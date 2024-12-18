@@ -48,7 +48,7 @@ async function drawBarChart() {
 
         /*********************************************************************************/
         // 生成svg
-        const margin = {top: 90, right: 30, bottom: 40, left: 990}; // 增加 top margin
+        const margin = {top: 90, right: 30, bottom: 60, left: 990};
         const width = 1700 - margin.left - margin.right;
         const height = 450 - margin.top - margin.bottom;
 
@@ -145,22 +145,14 @@ async function drawBarChart() {
         svg.append("g")
             .call(d3.axisLeft(y));
 
-        // 顯示總站點數量
+        // 顯示 顯示日期 總站點數量
+        const formattedDate = latestDate.slice(0, 4) + '-' + latestDate.slice(4, 6) + '-' + latestDate.slice(6, 8) + ' ' + latestDate.slice(8, 10) + ':' + latestDate.slice(10, 12);
         svg.append("text")
             .attr("class", "total-stations")
-            .attr("x", width - 150) // 放置在 bar chart 旁邊
-            .attr("y", 15)
-            .attr("text-anchor", "start")
-            .text(`Total Stations: ${stationData.length}`);
-
-        // 顯示日期
-        const formattedDate = latestDate.replace('T', ' ').slice(0, 16).replace(/-/g, '-');
-        svg.append("text")
-            .attr("class", "date")
-            .attr("x", width - 150) // 放置在 bar chart 旁邊
-            .attr("y", 35)
-            .attr("text-anchor", "start")
-            .text(`Date: ${formattedDate}`);
+            .attr("x", width / 2) // 放置在 bar chart 下方
+            .attr("y", height * 1.15)
+            .attr("text-anchor", "middle")
+            .text(`Total Stations: ${stationData.length}, Date: ${formattedDate}`);
 
     } catch (error) {
         console.error('Error fetching data for bar chart:', error);
@@ -289,22 +281,15 @@ async function updateBarChart(stationIDList) {
                 .attr("class", "y-axis")
                 .call(d3.axisLeft(y));
 
-            // 顯示總站點數量
+            // 顯示 顯示日期 總站點數量
+            const formattedDate = latestDate.slice(0, 4) + '-' + latestDate.slice(4, 6) + '-' + latestDate.slice(6, 8) + ' ' + latestDate.slice(8, 10) + ':' + latestDate.slice(10, 12);
             svg.append("text")
                 .attr("class", "total-stations")
-                .attr("x", width - 160) // 放置在 bar chart 旁邊
-                .attr("y", 15)
-                .attr("text-anchor", "start")
-                .text(`Total Stations: ${stationData.length}`);
+                .attr("x", width / 2) // 放置在 bar chart 下方
+                .attr("y", height + 30)
+                .attr("text-anchor", "middle")
+                .text(`Total Stations: ${stationData.length}, Date: ${formattedDate}`);
 
-            // 顯示日期
-            const formattedDate = latestDate.replace('T', ' ').slice(0, 16).replace(/-/g, '-');
-            svg.append("text")
-                .attr("class", "date")
-                .attr("x", width - 160) // 放置在 bar chart 旁邊
-                .attr("y", 35)
-                .attr("text-anchor", "start")
-                .text(`Date: ${formattedDate}`);
         } catch (error) {
             console.error('Error updating bar chart:', error);
         }
