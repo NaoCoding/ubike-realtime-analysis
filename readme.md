@@ -1,66 +1,29 @@
 ## UBike Real-time Analysis
 
-#### Description
+### Overview
 
-This project is the final project of NTNU Data Visualization
+UBike Real-time analysis is a website written with d3.js and Python. <br>
+This website fulfill and offer various functions that official app isn't offering. <br>
+To use our website, you may download the source code and start the server by yourself.
+
+### Architecture
+Backend : Python Flask + Folium <br>
+Frontend : Normal HTML/CSS and D3.js
+
+### How to use
+
+1. Clone or download the repo
+2. `pip install -r requirements.txt`
+3. `python server.py` (`python3 server.py`)
+4. `localhost:5000` will be the frontend of the website.
 
 
-#### Map Generator API
+### Screenshots
 
-API Location : `http://localhost:5000/api/map` <br>
-API Description : `Get Map Data`<br>
-API Parameter : `date`<br>
-API Return : `html`
+![image](https://github.com/user-attachments/assets/8d9aeb4c-ba38-4129-8d21-b1be7f8cfff6)
+![image](https://github.com/user-attachments/assets/d53eaa23-4a0f-468b-93a0-c7f19c8e3b56)
 
-Usage : After opening `server.py`, you can use the following URL to get the map data. 
 
-Example : `http://localhost:5000/api/map?date=201912070533`
-= get the map of 2019-12-07 05:33
-
-#### Time History Data API
-
-API Location : `http://localhost:5000/api/get_time` <br>
-API Description : `Get Time History Data`<br>
-API Return : `json`
-
-Usage : After opening `server.py`, you can use the following URL to get the history data.
-
-Example : `http://localhost:5000/api/get_time` = 
-```
-{
-    "start" : oldest.json file time
-    "end" : newest.json file time
-    "time" : [array] .json file list
-
-}
-```
-
-#### ToDo
-
-`Server storage (12/4)`
-- [x] `Basic storage and API ruleset`
-
-`History System (12/7)`
-- [x] `Auto Storing UBike API Data Every three mins`
-
-`Python Folium Map`
-- [ ] `Map Selection Button(12/13)`
-- [x] `Station Marker Color Difference(12/7)`
-
-`Web Page`
-- [ ] `Web Page Design(12/13)`
-- [x] `input range(12/9)`
-
-`D3.js (12/13)` 
-- [ ] `Bar Chart`
-- [ ] `Pie Chart`
-- [ ] `Plot`
-- [ ] `Line Chart`
-
-`Extra Function + Frontend Design (12/15)`
-- [ ] `Search Function`
-- [ ] `Change Language`
-- [ ] `Light / Dark Theme`
 
 
 
