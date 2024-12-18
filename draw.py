@@ -48,17 +48,26 @@ class Draw(JSCSSMixin, MacroElement):
             var options = {
               position: {{ this.position|tojson }},
               draw: {{ this.draw_options|tojson }},
-              edit: {{ this.edit_options|tojson }},
+              edit: {
+                edit: false,
+                remove : false,
+                featureGroup: drawnItems
+              },
             }
             // FeatureGroup is to store editable layers.
+
+            
+            
             var drawnItems = new L.featureGroup().addTo(
                 {{ this._parent.get_name() }}
             );
             options.edit.featureGroup = drawnItems;
             
+            
             var {{ this.get_name() }} = new L.Control.Draw(
                 options
             ).addTo( {{this._parent.get_name()}} );
+            console.log({{ this.get_name() }})
             {{ this._parent.get_name() }}.on(L.Draw.Event.CREATED, function(e) {
                 var layer = e.layer,
                     type = e.layerType;
@@ -80,16 +89,12 @@ class Draw(JSCSSMixin, MacroElement):
                 
             });
             {% if this.export %}
+            document.getElementById('export').innerHTML = "Clear Selection"
             document.getElementById('export').onclick = function(e) {
-                var data = drawnItems.toGeoJSON();
-                var convertedData = 'text/json;charset=utf-8,'
-                    + encodeURIComponent(JSON.stringify(data));
-                document.getElementById('export').setAttribute(
-                    'href', 'data:' + convertedData
-                );
-                document.getElementById('export').setAttribute(
-                    'download', {{ this.filename|tojson }}
-                );
+                for(const k in drawnItems._layers){
+                    drawnItems.removeLayer(drawnItems._layers[k])
+                }
+                parent.selectClear()
             }
             {% endif %}
         {% endmacro %}

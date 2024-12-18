@@ -117,3 +117,9 @@ function iframe_onLoad(){
 }
 
 window.onload = updateSlideRange()
+
+function selectClear(){
+
+    //ToDo : call the functions just like start
+
+}
