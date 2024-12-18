@@ -38,9 +38,9 @@ async function drawScatterPlot() {
         /***********************************************************************/
 
         // 生成svg
-        const margin = {top: 450, right: 30, bottom: 40, left: 90};
+        const margin = {top: 550, right: 30, bottom: 40, left: 90};
         const width = 800 - margin.left - margin.right; // 調整寬度
-        const height = 1050 - margin.top - margin.bottom; // 調整高度
+        const height = 1150 - margin.top - margin.bottom; // 調整高度
 
         const svg = d3.select("#d3-chart")
             .append("svg")
@@ -77,12 +77,12 @@ async function drawScatterPlot() {
             .attr("class", "dot")
             .attr("cx", d => x(d.available_rent_bikes))
             .attr("cy", d => y(d.available_return_bikes))
-            .attr("r", 4)
+            .attr("r", 3.5)
             .attr("fill", d => {
                 const percentage = d.available_rent_bikes / d.total;
-                if (percentage >= 0.6) return "lightgreen";
-                if (percentage >= 0.3) return "yellow";
-                return "lightcoral";
+                if (percentage >= 0.6) return "green";
+                if (percentage >= 0.3) return "#FF8C00";
+                return "red";
             })
             .on("mouseover", function(event, d) {
                 tooltip.style("visibility", "visible")

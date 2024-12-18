@@ -50,9 +50,9 @@ async function drawBarChart() {
         /*********************************************************************************/
 
         // 生成svg
-        const margin = {top: 60, right: 30, bottom: 40, left: 90}; // 增加 top margin
-        const width = 800 - margin.left - margin.right;
-        const height = 420 - margin.top - margin.bottom;
+        const margin = {top: 90, right: 30, bottom: 40, left: 990}; // 增加 top margin
+        const width = 1700 - margin.left - margin.right;
+        const height = 450 - margin.top - margin.bottom;
 
         const svg = d3.select("#d3-chart")
             .append("svg")
