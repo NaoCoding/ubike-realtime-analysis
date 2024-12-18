@@ -78,7 +78,9 @@ function update_slider_value(value){
     document.querySelector("body > div.container > div > iframe").src = './api/map?date=' + timeList[value];
     document.getElementById('loading-div').style.display = 'flex';
     document.getElementById('iframe').style.display = 'none';
-    //ToDo : update three chart and del the line chart
+
+    //ToDo : update three chart and the line chart
+    awaitupdateLineChart(undefined)
 }
 
 async function updateSlideRange() {
