@@ -1,4 +1,5 @@
 folium
 requests
 Flask
+jinja2
 flask_cors

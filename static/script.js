@@ -73,7 +73,11 @@ async function selectArea(coords){
 
 
 function update_slider_value(value){
+    if(parseNumberToDate(timeList[value]) == document.getElementById('slider_value').innerHTML)return
     document.getElementById('slider_value').innerHTML = parseNumberToDate(timeList[value]);
+    document.querySelector("body > div.container > div > iframe").src = './api/map?date=' + timeList[value];
+
+    //ToDo : update three chart and del the line chart
 }
 
 async function updateSlideRange() {
