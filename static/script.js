@@ -66,9 +66,8 @@ async function selectArea(coords){
     
     //ToDo : update three plots with station_info
     updateBarChart(station_info);
-    // await updatePieChart(station_info);
-    // await updateScatterPlot(station_info);
-    // await updateLineChart(station_info);
+    // updatePieChart(station_info);
+    // updateScatterPlot(station_info);
 
 }
 
@@ -81,10 +80,10 @@ function update_slider_value(value){
     document.getElementById('iframe').style.display = 'none';
 
     //ToDo : update three chart and the line chart
-    awaitupdateLineChart('undefined')
-    drawPieChart()
-    drawBarChart()
-    drawScatterPlot()
+    awaitupdateLineChart('undefined');
+    // drawPieChart();
+    updateBarChart([]);
+    // drawScatterPlot();
 }
 
 async function updateSlideRange() {

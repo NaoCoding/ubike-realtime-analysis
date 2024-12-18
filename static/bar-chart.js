@@ -48,22 +48,25 @@ async function drawBarChart() {
         console.log(regionData);
 
         /*********************************************************************************/
-        d3.select("#d3bar-chart").remove();
         // 生成svg
         const margin = {top: 90, right: 30, bottom: 40, left: 990}; // 增加 top margin
         const width = 1700 - margin.left - margin.right;
         const height = 450 - margin.top - margin.bottom;
 
-        const svg = d3.select("#d3-chart")
-            .append("svg")
-            .attr("id", "d3bar-chart")
-            .attr("width", width + margin.left + margin.right)
-            .attr("height", height + margin.top + margin.bottom)
-            .append("g")
-            .attr("transform", `translate(${margin.left},${margin.top})`);
-
-        // 移除舊的圖表元素
-        svg.selectAll("*").remove();
+        let svg = d3.select("#d3bar-chart");
+        if (svg.empty()) {
+            svg = d3.select("#d3-chart")
+                .append("svg")
+                .attr("id", "d3bar-chart")
+                .attr("width", width + margin.left + margin.right)
+                .attr("height", height + margin.top + margin.bottom)
+                .append("g")
+                .attr("transform", `translate(${margin.left},${margin.top})`);
+        } else {
+            svg.selectAll("*").remove();
+            svg = svg.append("g")
+                .attr("transform", `translate(${margin.left},${margin.top})`);
+        }
 
         // 設定比例尺
         const x = d3.scaleBand()
@@ -147,9 +150,18 @@ async function drawBarChart() {
         svg.append("text")
             .attr("class", "total-stations")
             .attr("x", width - 150) // 放置在 bar chart 旁邊
-            .attr("y", 20)
+            .attr("y", 15)
             .attr("text-anchor", "start")
             .text(`Total Stations: ${stationData.length}`);
+
+        // 顯示日期
+        const formattedDate = latestDate.replace('T', ' ').slice(0, 16).replace(/-/g, '-');
+        svg.append("text")
+            .attr("class", "date")
+            .attr("x", width - 150) // 放置在 bar chart 旁邊
+            .attr("y", 35)
+            .attr("text-anchor", "start")
+            .text(`Date: ${formattedDate}`);
 
     } catch (error) {
         console.error('Error fetching data for bar chart:', error);
@@ -161,6 +173,15 @@ async function updateBarChart(stationIDList) {
         drawBarChart();
     } else {
         try {
+            // 獲得 bike 數量
+            const timeResponse = await fetch('/api/get_time');
+            const timeData = await timeResponse.json();
+            const latestDate = timeData.time[document.getElementById('slide').value];
+
+            const data = await fetchBikeData(latestDate);
+            
+            console.log('stationIDList:', stationIDList);
+
             // 生成 data 與 stationInfo 的對應
             const stationData = stationIDList.map(station => ({
                 available_rent_bikes: station.available_rent_bikes,
@@ -268,10 +289,19 @@ async function updateBarChart(stationIDList) {
             // 顯示總站點數量
             svg.append("text")
                 .attr("class", "total-stations")
-                .attr("x", width - 150) // 放置在 bar chart 旁邊
-                .attr("y", 20)
+                .attr("x", width - 160) // 放置在 bar chart 旁邊
+                .attr("y", 15)
                 .attr("text-anchor", "start")
                 .text(`Total Stations: ${stationData.length}`);
+
+            // 顯示日期
+            const formattedDate = latestDate.replace('T', ' ').slice(0, 16).replace(/-/g, '-');
+            svg.append("text")
+                .attr("class", "date")
+                .attr("x", width - 160) // 放置在 bar chart 旁邊
+                .attr("y", 35)
+                .attr("text-anchor", "start")
+                .text(`Date: ${formattedDate}`);
         } catch (error) {
             console.error('Error updating bar chart:', error);
         }
