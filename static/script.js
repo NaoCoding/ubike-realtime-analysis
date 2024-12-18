@@ -67,7 +67,7 @@ async function selectArea(coords){
     //ToDo : update three plots with station_info
     updateBarChart(station_info);
     // updatePieChart(station_info);
-    // updateScatterPlot(station_info);
+    updateScatterPlot(station_info);
 
 }
 
@@ -82,7 +82,7 @@ function update_slider_value(value){
     awaitupdateLineChart('undefined');
     // drawPieChart();
     updateBarChart([]);
-    // drawScatterPlot();
+    drawScatterPlot();
 }
 
 async function updateSlideRange() {
@@ -121,5 +121,6 @@ function selectClear(){
 
     //ToDo : call the functions just like start
     updateBarChart([]);
+    drawScatterPlot();
 
 }
