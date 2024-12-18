@@ -10,7 +10,7 @@ async function drawPieChart() {
         // 獲得 bike 數量
         const timeResponse = await fetch('/api/get_time');
         const timeData = await timeResponse.json();
-        const latestDate = timeData.time[timeData.time.length - 1];
+        const latestDate = timeData.time[document.getElementById('slide').value];
 
         const data = await fetchBikeData(latestDate);
 
@@ -48,6 +48,7 @@ async function drawPieChart() {
         regionData.sort((a, b) => b.available_rent_bikes / totalAvailableBikes - a.available_rent_bikes / totalAvailableBikes);
 
         /***************************************************************************/
+        d3.select("#d3pie-chart").remove();
 
         // 生成svg
         const margin = {top: 580, right: 80, bottom: 80, left: 1080};
@@ -58,6 +59,7 @@ async function drawPieChart() {
 
         const svg = d3.select("#d3-chart")
             .append("svg")
+            .attr("id","d3pie-chart")
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom)
             .append("g")

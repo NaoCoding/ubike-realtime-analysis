@@ -10,7 +10,7 @@ async function drawScatterPlot() {
         // 獲得 bike 數量
         const timeResponse = await fetch('/api/get_time');
         const timeData = await timeResponse.json();
-        const latestDate = timeData.time[timeData.time.length - 1];
+        const latestDate = timeData.time[document.getElementById('slide').value];
 
         const data = await fetchBikeData(latestDate);
 
@@ -36,7 +36,7 @@ async function drawScatterPlot() {
         console.log(stationData);
 
         /***********************************************************************/
-
+        d3.select("#d3scatter-plot").remove();
         // 生成svg
         const margin = {top: 550, right: 30, bottom: 40, left: 90};
         const width = 800 - margin.left - margin.right; // 調整寬度
@@ -44,6 +44,7 @@ async function drawScatterPlot() {
 
         const svg = d3.select("#d3-chart")
             .append("svg")
+            .attr("id","d3scatter-plot")
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom)
             .append("g")
