@@ -52,7 +52,7 @@ def CreateMap(date):
             ubike = 0
 
             draw = Draw(
-            export=False,
+            export=True,
             filename='data.geojson',
             position='topleft',
             show_geometry_on_click=True,
@@ -62,7 +62,7 @@ def CreateMap(date):
                           'marker': False,
                           'export': False,
                           "circle" : False},
-            edit_options={'poly': {'allowIntersection': False}},
+
             )
 
             
