@@ -48,7 +48,6 @@ async function fetchStationInfo() {
 
 async function updateLineChart(station_id, endTime) {
     await fetchStationInfo();
-    
 
     last24h_data = await get24hData(endTime);
 
@@ -64,17 +63,23 @@ async function updateLineChart(station_id, endTime) {
         .append("g")
         .attr("transform", "translate(" + window.innerWidth * 0.05 + "," +  window.innerHeight * 0.05 + ")");
 
-    const xScale =d3.scaleLinear()
+    const xScale = d3.scaleLinear()
         .domain([24, 0])
         .range([0, window.innerWidth*0.4]);
 
-    const yScale =d3.scaleLinear()
-        .domain([0 , d3.max(last24h_data, d => d.y.find(entry => entry[1] === station_id)[0])])
+    const yScale = d3.scaleLinear()
+        .domain([0 , d3.max(last24h_data, d => {
+            const entry = d.y.find(entry => entry[1] === station_id);
+            return entry ? entry[0] : 0;
+        })])
         .range([window.innerHeight*0.4 , 0]);
 
     const line = d3.line()
         .x(d => xScale(d.x))
-        .y(d => yScale(d.y.find(entry => entry[1] === station_id)[0]));
+        .y(d => {
+            const entry = d.y.find(entry => entry[1] === station_id);
+            return entry ? yScale(entry[0]) : yScale(0);
+        });
 
     svg.append("path")
         .datum(last24h_data) 
@@ -106,10 +111,14 @@ async function updateLineChart(station_id, endTime) {
         .enter()
         .append("circle")
         .attr("cx", d => xScale(d.x))
-        .attr("cy", d => yScale(d.y.find(entry => entry[1] === station_id)[0]))
+        .attr("cy", d => {
+            const entry = d.y.find(entry => entry[1] === station_id);
+            return entry ? yScale(entry[0]) : yScale(0);
+        })
         .attr("r", 4)
         .attr("fill", d => {
-            const available = d.y.find(entry => entry[1] === station_id)[0];
+            const entry = d.y.find(entry => entry[1] === station_id);
+            const available = entry ? entry[0] : 0;
             const total = stationInfo.find(station => station.sno === station_id).total;
             const percentage = available / total;
             if (percentage >= 0.6) return "green";
@@ -119,8 +128,10 @@ async function updateLineChart(station_id, endTime) {
         .on("mouseover", function(event, d) {
             const date = parseDate(d.debug);
             const formattedDate = `${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getDate().toString().padStart(2, '0')} ${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`;
+            const entry = d.y.find(entry => entry[1] === station_id);
+            const available = entry ? entry[0] : 0;
             tooltip.style("visibility", "visible")
-                .html(`Time: ${formattedDate}<br>Available Bikes: ${d.y.find(entry => entry[1] === station_id)[0]}`);
+                .html(`Time: ${formattedDate}<br>Available Bikes: ${available}`);
         })
         .on("mousemove", function(event) {
             tooltip.style("top", (event.pageY - 10) + "px")
@@ -141,18 +152,14 @@ async function updateLineChart(station_id, endTime) {
 }
 
 function selectStation(lat , lng){
-
-
-
     for(var i=0;i<stationInfo.length;i++){
 
         if(stationInfo[i].latitude == lat && stationInfo[i].longitude == lng){
-            console.log(stationInfo[i].sno)
+            console.log(stationInfo[i].sno);
             awaitupdateLineChart(stationInfo[i].sno);
-            break
+            break;
         }
     }
-    none
 }
 
 function parseDate(dateStr) {
@@ -172,17 +179,13 @@ function time_diff(dateStr1, dateStr2) {
     return diffInHours;
 }
 
-//updateLineChart('500101001', '202412172209');
 async function awaitupdateLineChart(stationId){
-    
     const interval = setInterval(() => {
         if(timeList.length > 0){
             clearInterval(interval);
             updateLineChart(stationId, timeList[document.getElementById('slide').value]);
         }
     }, 50);
-
-    
 }
-// updateLineChart('500101001', timeList[document.getElementById('slide').value]);
+
 awaitupdateLineChart('500101001');

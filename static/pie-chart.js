@@ -50,9 +50,9 @@ async function drawPieChart() {
         /***************************************************************************/
 
         // 生成svg
-        const margin = {top: 80, right: 80, bottom: 80, left: 1080};
+        const margin = {top: 580, right: 80, bottom: 80, left: 1080};
         const width = 1500 - margin.left - margin.right;
-        const height = 500 - margin.top - margin.bottom;
+        const height = 1000 - margin.top - margin.bottom;
 
         const radius = Math.min(width, height) / 2;
 
