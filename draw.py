@@ -87,7 +87,7 @@ class Draw(JSCSSMixin, MacroElement):
                 var coords = JSON.stringify(e.layer.toGeoJSON());
                 parent.selectArea(coords)
                 
-            });
+            }); 
             {% if this.export %}
             document.getElementById('export').innerHTML = "Clear Selection"
             document.getElementById('export').onclick = function(e) {
@@ -96,6 +96,11 @@ class Draw(JSCSSMixin, MacroElement):
                 }
                 parent.selectClear()
             }
+            document.getElementById('export').style.position = "absolute"
+            document.getElementById('export').style.left = "10px"
+            document.getElementById('export').style.top = "21.5%"
+            document.getElementById('export').style.width = "7%"
+            document.getElementById('export').style.margin = "0"
             {% endif %}
         {% endmacro %}
         """
