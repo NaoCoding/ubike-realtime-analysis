@@ -71,7 +71,6 @@ async function selectArea(coords){
 
 }
 
-
 function update_slider_value(value){
     if(parseNumberToDate(timeList[value]) == document.getElementById('slider_value').innerHTML)return
     document.getElementById('slider_value').innerHTML = parseNumberToDate(timeList[value]);
@@ -121,5 +120,6 @@ window.onload = updateSlideRange()
 function selectClear(){
 
     //ToDo : call the functions just like start
+    updateBarChart([]);
 
 }

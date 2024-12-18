@@ -20,16 +20,15 @@ async function drawBarChart() {
         stationInfo = JSON.parse(stationInfo); // 確保 stationInfo 是 JSON 格式
 
         // 生成 data 與 stationInfo 的對應
-        const stationData = [];
-        for (const station of stationInfo) {
+        const stationData = stationInfo.map(station => {
             const dataEntry = data.find(d => d[1] === station.sno);
-            stationData.push({
+            return {
                 available_rent_bikes: dataEntry ? dataEntry[0] : 0,
                 total: station.total,
                 region: station.sarea,
                 station_ID: station.sno
-            });
-        }
+            };
+        });
 
         // Sum available_rent_bikes for the same region
         const regionData = d3.rollups(
@@ -180,15 +179,19 @@ async function updateBarChart(stationIDList) {
 
             const data = await fetchBikeData(latestDate);
             
+            console.log('data:', data);
             console.log('stationIDList:', stationIDList);
 
-            // 生成 data 與 stationInfo 的對應
-            const stationData = stationIDList.map(station => ({
-                available_rent_bikes: station.available_rent_bikes,
-                total: station.total,
-                name: station.sna,
-                station_ID: station.sno
-            }));
+            // 生成 data 與 stationIDList 的對應
+            const stationData = stationIDList.map(station => {
+                const dataEntry = data.find(d => d[1] === station.sno);
+                return {
+                    available_rent_bikes: dataEntry ? dataEntry[0] : 0,
+                    total: station.total,
+                    name: station.sna,
+                    station_ID: station.sno
+                };
+            });
 
             console.log('stationData:', stationData);
 
